@@ -20,7 +20,7 @@ Please follow the below steps to setup the solution on your machine.
 
 ```
 POST https://localhost:5001/website/count
-Body {"website":"https://www.ecr.co.za"}
+Body {"website":"https://www.google.co.za"}
 ```
 
 ## Todo
