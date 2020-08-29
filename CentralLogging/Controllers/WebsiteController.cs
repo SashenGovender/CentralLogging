@@ -73,6 +73,7 @@ namespace CentralLogging.Controllers
 
       if (string.IsNullOrWhiteSpace(request.Website))
       {
+        LogContext.Context.AddLog($"{LogLevel.Warning} - Invalid Url - '{request.Website}'");
         return BadRequest();
       }
 
@@ -81,22 +82,30 @@ namespace CentralLogging.Controllers
 
       if (response.StatusCode != HttpStatusCode.OK)
       {
+        LogContext.Context.AddLog($"{LogLevel.Warning} - '{request.Website}' returned back a {response.StatusCode}");
         return BadRequest(response);
       }
 
       var html = await response.Content.ReadAsStringAsync();
       PrintThreadIdToConsole("got content");
+      if(html.Length > 15000)
+      {
+        LogContext.Context.AddLog($"{LogLevel.Error} - '{request.Website}' returned back a very large html page of length {html.Length}");
+        throw new Exception("html page too large");
+      }
 
       var letterCounts = await Task.Run(() => _wordCounter.CountPerLetter(html));
       PrintThreadIdToConsole("after word count");
 
       var jsonResult = Newtonsoft.Json.JsonConvert.SerializeObject(letterCounts);
+
+      LogContext.Context.AddLog($"{LogLevel.Information} - Processing Complete -about to return ok response");
       return Ok(jsonResult);
     }
 
     private void PrintThreadIdToConsole(string message)
     {
-      Console.WriteLine($"{message} - ThreadId - {Thread.CurrentThread.ManagedThreadId.ToString()} ");
+      Console.WriteLine($"{message} - ThreadId - {Thread.CurrentThread.ManagedThreadId} ");
     }
   }
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CentralLogging.Observability;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,15 +12,16 @@ namespace CentralLogging.Processor
     public Dictionary<char, int> CountPerLetter(string word)
     {
       var characterCountDictionary = new Dictionary<char, int>();
-      foreach (char letter in word)
+      foreach (char character in word)
       {
-        if (characterCountDictionary.ContainsKey(letter))
+        if (characterCountDictionary.ContainsKey(character))
         {
-          characterCountDictionary[letter]++;
+          characterCountDictionary[character]++;
         }
         else
         {
-          characterCountDictionary.Add(letter, 0);
+          LogContext.Context.AddLog($"{LogLevel.Debug} - 'Added new character '{character}' to the dictionary");
+          characterCountDictionary.Add(character, 0);
         }
       }
 

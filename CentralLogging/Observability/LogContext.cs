@@ -73,16 +73,6 @@ namespace CentralLogging.Observability
      * Debug      - 1 - For debugging and development. Use with caution in production due to the high volume.
      * Trace      - 0 - Contain the most detailed messages. These messages may contain sensitive app data. These messages are disabled by default and should not be enabled in production.
      * 
-      
-     
-     
-     
-     
-     
-     
-     
-     
-     
      */
 
 
