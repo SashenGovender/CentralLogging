@@ -88,7 +88,7 @@ namespace CentralLogging.Controllers
 
       var html = await response.Content.ReadAsStringAsync();
       PrintThreadIdToConsole("got content");
-      if(html.Length > 15000)
+      if(html.Length > 50000)
       {
         LogContext.Context.AddLog($"{LogLevel.Error} - '{request.Website}' returned back a very large html page of length {html.Length}");
         throw new Exception("html page too large");
