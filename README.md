@@ -15,7 +15,7 @@ Please follow the below steps to setup the solution on your machine.
 * Build Solution
 
 ### Running
-* Start the API by using the CentralLogging propertities profile. This should display a welcome page
+* Start the API by using the CentralLogging propertities profile. This should display a welcome page (https://localhost:5001/html/home.html)
 * Using Postman send a request to the **count** endpoint
 
 ```
