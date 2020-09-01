@@ -69,11 +69,11 @@ namespace CentralLogging.Controllers
     {
       PrintThreadIdToConsole("start");
 
-      LogContext.Context.AddLog($"{LogLevel.Information} - Received Message Request - {JsonSerializer.Serialize(request)}");
+      LogContext.Context.AddLog(LogLevel.Information, $"Received Message Request - {JsonSerializer.Serialize(request)}");
 
       if (string.IsNullOrWhiteSpace(request.Website))
       {
-        LogContext.Context.AddLog($"{LogLevel.Warning} - Invalid Url - '{request.Website}'");
+        LogContext.Context.AddLog(LogLevel.Warning, $"Invalid Url - '{request.Website}'");
         return BadRequest();
       }
 
@@ -82,7 +82,7 @@ namespace CentralLogging.Controllers
 
       if (response.StatusCode != HttpStatusCode.OK)
       {
-        LogContext.Context.AddLog($"{LogLevel.Warning} - '{request.Website}' returned back a {response.StatusCode}");
+        LogContext.Context.AddLog(LogLevel.Warning, $"'{request.Website}' returned back a {response.StatusCode}");
         return BadRequest(response);
       }
 
@@ -90,8 +90,8 @@ namespace CentralLogging.Controllers
       PrintThreadIdToConsole("got content");
       if(html.Length > 50000)
       {
-        LogContext.Context.AddLog($"{LogLevel.Error} - '{request.Website}' returned back a very large html page of length {html.Length}");
-        throw new Exception("html page too large");
+        LogContext.Context.AddLog(LogLevel.Warning, $"'{request.Website}' returned back a very large html page of length {html.Length}");
+        //throw new Exception("html page too large");
       }
 
       var letterCounts = await Task.Run(() => _wordCounter.CountPerLetter(html));
@@ -99,7 +99,9 @@ namespace CentralLogging.Controllers
 
       var jsonResult = Newtonsoft.Json.JsonConvert.SerializeObject(letterCounts);
 
-      LogContext.Context.AddLog($"{LogLevel.Information} - Processing Complete -about to return ok response");
+      LogContext.Context.AddLog(LogLevel.Information, $"Processing Complete -about to return ok response");
+
+      var logs = LogContext.Context.GetLogs(LogLevel.Information);
       return Ok(jsonResult);
     }
 

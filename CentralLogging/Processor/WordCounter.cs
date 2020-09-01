@@ -20,7 +20,7 @@ namespace CentralLogging.Processor
         }
         else
         {
-          LogContext.Context.AddLog($"{LogLevel.Debug} - 'Added new character '{character}' to the dictionary");
+          LogContext.Context.AddLog(LogLevel.Debug, $"'Added new character '{character}' to the dictionary");
           characterCountDictionary.Add(character, 0);
         }
       }

@@ -12,7 +12,7 @@ namespace CentralLogging.Observability
   {
     private static readonly object _lock = new object();
     private static readonly AsyncLocal<LogContext> _logContext = new AsyncLocal<LogContext>();
-    private readonly ConcurrentQueue<string> _logQueue= new ConcurrentQueue<string>(); //order is important right?
+    private readonly ConcurrentQueue<LogRecord> _logQueue = new ConcurrentQueue<LogRecord>(); //order is important right?
     private LogContext() { }
 
     public static LogContext Context
@@ -34,16 +34,24 @@ namespace CentralLogging.Observability
       }
     }
 
-    public void AddLog(string message)
+    //public void AddLog(string message)
+    //{
+    //  _logQueue.Enqueue(message);
+    //}
+
+    public void AddLog(LogLevel level, string message)
     {
-      _logQueue.Enqueue(message);
+      AddLog(level, message, 0);
     }
 
-    public IReadOnlyList<string> GetLogs(/*LogLevel logLevel*/)
+    public void AddLog(LogLevel level, string message, int eventId)
     {
-      return _logQueue.ToList();
+      _logQueue.Enqueue(new LogRecord(level, message, eventId));
+    }
 
-     // return _logQueue.Where(element => element.Contains(logLevel.ToString())).ToList();
+    public IReadOnlyList<LogRecord> GetLogs(LogLevel allowedLogLevelAndAbove)
+    {
+      return _logQueue.Where(element => element.LogLevel >= allowedLogLevelAndAbove).ToList();
     }
 
 
