@@ -101,7 +101,7 @@ namespace CentralLogging.Controllers
 
       LogContext.Context.AddLog(LogLevel.Information, $"Processing Complete -about to return ok response");
 
-      var logs = LogContext.Context.GetLogs(LogLevel.Information);
+      var logs = LogContext.Context.GetLogs(LogLevel.Debug);
       return Ok(jsonResult);
     }
 

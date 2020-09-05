@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CentralLogging.Processor
@@ -11,7 +12,10 @@ namespace CentralLogging.Processor
   {
     public Dictionary<char, int> CountPerLetter(string word)
     {
+      Console.WriteLine($"CountPerLetter - ThreadId - {Thread.CurrentThread.ManagedThreadId} ");
+
       var characterCountDictionary = new Dictionary<char, int>();
+      int count = 0;
       foreach (char character in word)
       {
         if (characterCountDictionary.ContainsKey(character))
@@ -20,8 +24,9 @@ namespace CentralLogging.Processor
         }
         else
         {
-          LogContext.Context.AddLog(LogLevel.Debug, $"'Added new character '{character}' to the dictionary");
+          LogContext.Context.AddLog(LogLevel.Debug, $"Count: {count} -  'Added new character '{character}' to the dictionary");
           characterCountDictionary.Add(character, 0);
+          count++;
         }
       }
 
