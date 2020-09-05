@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Threading;
 
 namespace GeneralOperationsAPI.Processor
@@ -11,10 +12,12 @@ namespace GeneralOperationsAPI.Processor
     public Dictionary<char, int> CountPerLetter(string word)
     {
       Console.WriteLine($"CountPerLetter - ThreadId - {Thread.CurrentThread.ManagedThreadId} ");
+      Regex pattern = new Regex("[^a-zA-z0-9]+");
+      string alphanumericCharacters = pattern.Replace(word, "");
 
       var characterCountDictionary = new Dictionary<char, int>();
       int count = 0;
-      foreach (char character in word)
+      foreach (char character in alphanumericCharacters)
       {
         if (characterCountDictionary.ContainsKey(character))
         {
@@ -23,8 +26,9 @@ namespace GeneralOperationsAPI.Processor
         else
         {
           LogContext.Context.AddLog(LogLevel.Debug, $"Count: {count} -  'Added new character '{character}' to the dictionary");
-          characterCountDictionary.Add(character, 0);
-          count++;
+          characterCountDictionary.Add(character, 1);
+          count++
+          ;
         }
       }
 

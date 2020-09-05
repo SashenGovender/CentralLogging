@@ -19,20 +19,12 @@ namespace GeneralOperationsAPI.Controllers
   {
     private static readonly HttpClient _client = new HttpClient(); // how do I make this once per application?
     private readonly IWordCounter _wordCounter;
+    private readonly ILogger<WebsiteController> _logger;
 
-    public WebsiteController(IWordCounter wordCounter)
+    public WebsiteController(IWordCounter wordCounter, ILogger<WebsiteController> logger)
     {
       _wordCounter = wordCounter;
-    }
-
-    /// <summary>
-    ///  A test get endpoint to check if the api is up
-    /// </summary>
-    /// <returns></returns>
-    [HttpGet]
-    public IEnumerable<string> Get()
-    {
-      return new string[] { "value1", "value2" };
+      _logger = logger;
     }
 
     /// <summary>
@@ -68,7 +60,6 @@ namespace GeneralOperationsAPI.Controllers
     public async Task<IActionResult> QueryWebsiteCount([FromBody] MessageRequest request)
     {
       PrintThreadIdToConsole("start");
-
       LogContext.Context.AddLog(LogLevel.Information, $"Received Message Request - {JsonSerializer.Serialize(request)}");
 
       if (string.IsNullOrWhiteSpace(request.Website))
@@ -102,12 +93,24 @@ namespace GeneralOperationsAPI.Controllers
       LogContext.Context.AddLog(LogLevel.Information, $"Processing Complete -about to return ok response");
 
       var logs = LogContext.Context.GetLogs(LogLevel.Debug);
+      //WriteLogs(logs);
+      LogContext.Context.WriteToFile($@"C:\MyLogs\GeneralOperationsAPI_V1-{DateTime.Now.ToString("yyy-MM-dd")}.log");
+      
+
       return Ok(jsonResult);
     }
 
     private void PrintThreadIdToConsole(string message)
     {
       Console.WriteLine($"{message} - ThreadId - {Thread.CurrentThread.ManagedThreadId} ");
+    }
+
+    private void WriteLogs(List<LogRecord> logs)
+    {
+      foreach(var log in logs)
+      {
+        _logger.Log(log.LogLevel, log.Message, log.EventId);
+      }
     }
   }
 }

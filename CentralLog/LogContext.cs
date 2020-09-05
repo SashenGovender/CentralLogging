@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 
@@ -11,7 +12,7 @@ namespace CentralLog
   {
     private static readonly object _lock = new object();
     private static readonly AsyncLocal<LogContext> _logContext = new AsyncLocal<LogContext>();
-    private readonly ConcurrentQueue<LogRecord> _logQueue = new ConcurrentQueue<LogRecord>(); 
+    private readonly List<LogRecord> _logList = new List<LogRecord>(); 
     private LogContext() { }
 
     public static LogContext Context
@@ -45,16 +46,33 @@ namespace CentralLog
 
     public void AddLog(LogLevel level, string message, int eventId)
     {
-      _logQueue.Enqueue(new LogRecord(level, message, eventId));
+      _logList.Add(new LogRecord(level, message, eventId));// do i need to new objects, gc?. perhaps just have string messages. would we care about filtering out certian levels?
     }
 
-    public IReadOnlyList<LogRecord> GetLogs(LogLevel allowedLogLevelAndAbove)
+    public List<LogRecord> GetLogs(LogLevel level)
     {
-      return _logQueue.Where(element => element.LogLevel >= allowedLogLevelAndAbove).ToList();
+      switch(level)
+      {
+        case LogLevel.Error: return _logList;
+        case LogLevel.Warning: return _logList.Where(element => element.LogLevel >= level).ToList();
+        case LogLevel.Information: return _logList.Where(element => element.LogLevel >= level).ToList();
+        case LogLevel.Debug: return _logList.Where(element => element.LogLevel >= level).ToList();
+      }
+      return null;
     }
 
 
+    public void WriteToFile(string fullPath)
+    {
+      using (StreamWriter sw = File.AppendText(fullPath))
+      {
+        foreach (var log in _logList)
+        {
+          sw.WriteLine(log.ToString());
 
+        }
+      }
+    }
 
 
 
