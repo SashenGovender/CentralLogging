@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace CentralLogging.Processor
+namespace GeneralOperationsAPI.Processor
 {
   public interface IWordCounter
   {

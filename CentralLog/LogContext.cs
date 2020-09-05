@@ -1,18 +1,17 @@
 ﻿using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 
-namespace CentralLogging.Observability
+
+namespace CentralLog
 {
   public class LogContext
   {
     private static readonly object _lock = new object();
     private static readonly AsyncLocal<LogContext> _logContext = new AsyncLocal<LogContext>();
-    private readonly ConcurrentQueue<LogRecord> _logQueue = new ConcurrentQueue<LogRecord>(); //order is important right?
+    private readonly ConcurrentQueue<LogRecord> _logQueue = new ConcurrentQueue<LogRecord>(); 
     private LogContext() { }
 
     public static LogContext Context
@@ -34,10 +33,10 @@ namespace CentralLogging.Observability
       }
     }
 
-    //public void AddLog(string message)
-    //{
-    //  _logQueue.Enqueue(message);
-    //}
+    public void AddLog(string message)
+    {
+      AddLog(LogLevel.Information, message, 0);
+    }
 
     public void AddLog(LogLevel level, string message)
     {

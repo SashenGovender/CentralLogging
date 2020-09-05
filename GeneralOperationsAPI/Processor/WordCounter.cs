@@ -1,12 +1,10 @@
-﻿using CentralLogging.Observability;
+﻿using CentralLog;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 
-namespace CentralLogging.Processor
+namespace GeneralOperationsAPI.Processor
 {
   public class WordCounter : IWordCounter
   {

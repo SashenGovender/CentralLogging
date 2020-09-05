@@ -5,13 +5,13 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using CentralLogging.Models;
-using CentralLogging.Observability;
-using CentralLogging.Processor;
+using CentralLog;
+using GeneralOperationsAPI.Models;
+using GeneralOperationsAPI.Processor;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace CentralLogging.Controllers
+namespace GeneralOperationsAPI.Controllers
 {
   [Route("website")]
   [ApiController]
@@ -88,7 +88,7 @@ namespace CentralLogging.Controllers
 
       var html = await response.Content.ReadAsStringAsync();
       PrintThreadIdToConsole("got content");
-      if(html.Length > 50000)
+      if (html.Length > 50000)
       {
         LogContext.Context.AddLog(LogLevel.Warning, $"'{request.Website}' returned back a very large html page of length {html.Length}");
         //throw new Exception("html page too large");
