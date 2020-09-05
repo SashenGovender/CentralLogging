@@ -16,11 +16,11 @@ namespace LoggingProblem
       _logger = logger;
     }
 
-    public double Factorial(int number)
+    public async Task <double> Factorial(int number)
     {
       _logger.LogInformation($"ThreadId: {Thread.CurrentThread.ManagedThreadId} - Calculate factorial of {number}");
       double result = 1;
-      //await Task.Delay(1000);
+      await Task.Delay(1000);
       for( int num=2;num<=number; num++)
       {
         result = result * num;

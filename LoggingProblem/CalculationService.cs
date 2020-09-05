@@ -19,24 +19,24 @@ namespace LoggingProblem
       _mathOperations = mathOperations;
     }
 
-    public  Task StartAsync(CancellationToken cancellationToken)
+    public async Task StartAsync(CancellationToken cancellationToken)
     {
       _logger.Log(LogLevel.Information, "CalculationService StartAsync");
 
       var taskList = new List<Task>();
-      taskList.Add(Task.Run( async () => _mathOperations.Factorial(10)));
-      taskList.Add(Task.Run(() => _mathOperations.Factorial(600)));
-      taskList.Add(Task.Run(() => _mathOperations.Factorial(70)));
-      taskList.Add(Task.Run(() => _mathOperations.Factorial(80)));
-      taskList.Add(Task.Run(() => _mathOperations.Factorial(90)));
-      taskList.Add(Task.Run(() => _mathOperations.Factorial(100)));
-      taskList.Add(Task.Run(() => _mathOperations.Factorial(110)));
-      taskList.Add(Task.Run(() => _mathOperations.Factorial(120)));
-      taskList.Add(Task.Run(() => _mathOperations.Factorial(130)));
+      taskList.Add(Task.Run(() => _mathOperations.Factorial(1)));
+      taskList.Add(Task.Run(() => _mathOperations.Factorial(2)));
+      taskList.Add(Task.Run(() => _mathOperations.Factorial(3)));
+      taskList.Add(Task.Run(() => _mathOperations.Factorial(4)));
+      taskList.Add(Task.Run(() => _mathOperations.Factorial(5)));
+      taskList.Add(Task.Run(() => _mathOperations.Factorial(6)));
+      taskList.Add(Task.Run(() => _mathOperations.Factorial(7)));
+      taskList.Add(Task.Run(() => _mathOperations.Factorial(8)));
+      taskList.Add(Task.Run(() => _mathOperations.Factorial(9)));
 
-       Task.WhenAll(taskList);
+       await Task.WhenAll(taskList);
       _logger.Log(LogLevel.Information, "Found All Factorial Results");
-      return Task.CompletedTask;
+     // return Task.CompletedTask;
     }
 
     public Task StopAsync(CancellationToken cancellationToken)

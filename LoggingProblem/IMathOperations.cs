@@ -1,7 +1,9 @@
-﻿namespace LoggingProblem
+﻿using System.Threading.Tasks;
+
+namespace LoggingProblem
 {
   public interface IMathOperations
   {
-    double Factorial(int number);
+     Task<double> Factorial(int number);
   }
 }
