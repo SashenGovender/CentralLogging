@@ -25,7 +25,7 @@ namespace GeneralOperationsAPI.Processor
         }
         else
         {
-          LogContext.Context.AddLog(LogLevel.Debug, $"Count: {count} -  'Added new character '{character}' to the dictionary");
+          LogContext.Context.AddLog(LogLevel.Debug, $"Count: {count} -  'Added new character '{character}' to the dictionary", 0);
           characterCountDictionary.Add(character, 1);
           count++
           ;

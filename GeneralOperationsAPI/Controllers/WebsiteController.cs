@@ -60,11 +60,11 @@ namespace GeneralOperationsAPI.Controllers
     public async Task<IActionResult> QueryWebsiteCount([FromBody] MessageRequest request)
     {
       PrintThreadIdToConsole("start");
-      LogContext.Context.AddLog(LogLevel.Information, $"Received Message Request - {JsonSerializer.Serialize(request)}");
+      LogContext.Context.AddLog(LogLevel.Information, $"Received Message Request - {JsonSerializer.Serialize(request)}", 0);
 
       if (string.IsNullOrWhiteSpace(request.Website))
       {
-        LogContext.Context.AddLog(LogLevel.Warning, $"Invalid Url - '{request.Website}'");
+        LogContext.Context.AddLog(LogLevel.Warning, $"Invalid Url - '{request.Website}'", 0);
         return BadRequest();
       }
 
@@ -73,7 +73,7 @@ namespace GeneralOperationsAPI.Controllers
 
       if (response.StatusCode != HttpStatusCode.OK)
       {
-        LogContext.Context.AddLog(LogLevel.Warning, $"'{request.Website}' returned back a {response.StatusCode}");
+        LogContext.Context.AddLog(LogLevel.Warning, $"'{request.Website}' returned back a {response.StatusCode}", 0);
         return BadRequest(response);
       }
 
@@ -81,7 +81,7 @@ namespace GeneralOperationsAPI.Controllers
       PrintThreadIdToConsole("got content");
       if (html.Length > 50000)
       {
-        LogContext.Context.AddLog(LogLevel.Warning, $"'{request.Website}' returned back a very large html page of length {html.Length}");
+        LogContext.Context.AddLog(LogLevel.Warning, $"'{request.Website}' returned back a very large html page of length {html.Length}", 0);
         //throw new Exception("html page too large");
       }
 
@@ -90,11 +90,11 @@ namespace GeneralOperationsAPI.Controllers
 
       var jsonResult = Newtonsoft.Json.JsonConvert.SerializeObject(letterCounts);
 
-      LogContext.Context.AddLog(LogLevel.Information, $"Processing Complete -about to return ok response");
+      LogContext.Context.AddLog(LogLevel.Information, $"Processing Complete -about to return ok response", 0);
 
       var logs = LogContext.Context.GetLogs(LogLevel.Debug);
-      //WriteLogs(logs);
-      LogContext.Context.WriteToFile($@"C:\MyLogs\GeneralOperationsAPI_V1-{DateTime.Now.ToString("yyy-MM-dd")}.log");
+      WriteLogs(logs);
+      //LogContext.Context.WriteToFile($@"C:\MyLogs\GeneralOperationsAPI_V1-{DateTime.Now.ToString("yyy-MM-dd")}.log");
       
 
       return Ok(jsonResult);
@@ -105,7 +105,7 @@ namespace GeneralOperationsAPI.Controllers
       Console.WriteLine($"{message} - ThreadId - {Thread.CurrentThread.ManagedThreadId} ");
     }
 
-    private void WriteLogs(List<LogRecord> logs)
+    private void WriteLogs(IReadOnlyList<LogRecord> logs)
     {
       foreach(var log in logs)
       {
