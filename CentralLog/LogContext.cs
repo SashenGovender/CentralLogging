@@ -8,73 +8,41 @@ using System.Threading;
 
 namespace CentralLog
 {
-  public class LogContext
+  public class LogContext : ILogContext
   {
     private static readonly object _lock = new object();
     private static readonly AsyncLocal<LogContext> _logContext = new AsyncLocal<LogContext>();
-    private readonly List<LogRecord> _logList = new List<LogRecord>(); 
-    private LogContext() { }
+    private readonly List<LogRecord> _logList = new List<LogRecord>();
 
     public static LogContext Context
     {
       get
       {
-        if (_logContext.Value == null)
+        lock (_lock)
         {
-          lock (_lock)
+          if (_logContext.Value == null)
           {
-            if (_logContext.Value == null)
-            {
-              _logContext.Value = new LogContext();
-            }
+            _logContext.Value = new LogContext();
           }
+          return _logContext.Value;
         }
-
-        return _logContext.Value;
       }
-    }
-
-    public void AddLog(string message)
-    {
-      AddLog(LogLevel.Information, message, 0);
-    }
-
-    public void AddLog(LogLevel level, string message)
-    {
-      AddLog(level, message, 0);
     }
 
     public void AddLog(LogLevel level, string message, int eventId)
     {
-      _logList.Add(new LogRecord(level, message, eventId));// do i need to new objects, gc?. perhaps just have string messages. would we care about filtering out certian levels?
+      //_logList.Add(new LogRecord(level, message, eventId));// do i need to new objects, gc?. perhaps just have string messages
+      _logList.Add(new LogRecord(level, message,eventId));
     }
 
-    public List<LogRecord> GetLogs(LogLevel level)
+    public IReadOnlyList<LogRecord> GetLogs(LogLevel level)
     {
       switch(level)
       {
         case LogLevel.Error: return _logList;
-        case LogLevel.Warning: return _logList.Where(element => element.LogLevel >= level).ToList();
-        case LogLevel.Information: return _logList.Where(element => element.LogLevel >= level).ToList();
-        case LogLevel.Debug: return _logList.Where(element => element.LogLevel >= level).ToList();
       }
       return null;
     }
-
-
-    public void WriteToFile(string fullPath)
-    {
-      using (StreamWriter sw = File.AppendText(fullPath))
-      {
-        foreach (var log in _logList)
-        {
-          sw.WriteLine(log.ToString());
-
-        }
-      }
-    }
-
-
 
 
     /*

@@ -11,17 +11,19 @@ namespace CentralLog
     public int? EventId { get; set; }
     public string Message { get; set; }
     public LogLevel LogLevel { get; set; }
+    public DateTime LogTime { get; set; }
 
     public LogRecord(LogLevel level, string message, int? eventId = null)
     {
       EventId = eventId;
       Message = message;
       LogLevel = level;
+      LogTime = DateTime.UtcNow;
     }
 
     public override string ToString()
     {
-      return $"{LogLevel} - Message: {Message} - EventId: {EventId}";
+      return $"{LogTime} - {LogLevel} - Message: {Message} - EventId: {EventId}";
     }
   }
 }
