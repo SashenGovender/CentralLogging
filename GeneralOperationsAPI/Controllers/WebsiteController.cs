@@ -92,7 +92,7 @@ namespace GeneralOperationsAPI.Controllers
 
       LogContext.Context.AddLog(LogLevel.Information, $"Processing Complete -about to return ok response", 0);
 
-      var logs = LogContext.Context.GetLogs(LogLevel.Debug);
+      var logs = LogContext.Context.GetLogs(LogLevel.Error);
       WriteLogs(logs);
       //LogContext.Context.WriteToFile($@"C:\MyLogs\GeneralOperationsAPI_V1-{DateTime.Now.ToString("yyy-MM-dd")}.log");
       
@@ -107,10 +107,9 @@ namespace GeneralOperationsAPI.Controllers
 
     private void WriteLogs(IReadOnlyList<LogRecord> logs)
     {
-      foreach(var log in logs)
-      {
-        _logger.Log(log.LogLevel, log.Message, log.EventId);
-      }
+      var jsonResult = Newtonsoft.Json.JsonConvert.SerializeObject(logs, Newtonsoft.Json.Formatting.Indented);
+
+        _logger.Log(LogLevel.Information, jsonResult);
     }
   }
 }
