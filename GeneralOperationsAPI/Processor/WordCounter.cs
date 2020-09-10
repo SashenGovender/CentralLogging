@@ -9,6 +9,11 @@ namespace GeneralOperationsAPI.Processor
 {
   public class WordCounter : IWordCounter
   {
+    private readonly ILogContext _logContext;
+    public WordCounter(ILogContext logContext)
+    {
+      _logContext = logContext;
+    }
     public Dictionary<char, int> CountPerLetter(string word)
     {
       Console.WriteLine($"CountPerLetter - ThreadId - {Thread.CurrentThread.ManagedThreadId} ");

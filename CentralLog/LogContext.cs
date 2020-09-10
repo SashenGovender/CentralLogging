@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
@@ -29,17 +30,24 @@ namespace CentralLog
       }
     }
 
-    public void AddLog(LogLevel level, string message, int eventId)
+    public void AddLog(LogLevel level, string message, int eventId = 0, Exception except = null)
     {
-      //_logList.Add(new LogRecord(level, message, eventId));// do i need to new objects, gc?. perhaps just have string messages
-      _logList.Add(new LogRecord(level, message,eventId));
+      _logList.Add(new LogRecord(level, message, eventId, except));
     }
 
-    public IReadOnlyList<LogRecord> GetLogs(LogLevel level)
+    /// <summary>
+    /// Get log context
+    /// </summary>
+    /// <param name="contextLevel">The level at which the context must be returned. ie If warning, return the full context</param>
+    /// <returns></returns>
+    public IReadOnlyList<LogRecord> GetLogs(LogLevel contextLevel)
     {
-      switch(level)
+      foreach(var log in _logList)
       {
-        case LogLevel.Error: return _logList;
+        if(log.LogLevel == contextLevel)
+        {
+          return _logList;
+        }
       }
       return null;
     }

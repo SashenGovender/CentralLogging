@@ -1,3 +1,4 @@
+using CentralLog;
 using GeneralOperationsAPI.Processor;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -22,6 +23,7 @@ namespace GeneralOperationsAPI
       services.AddControllers();
 
       services.AddTransient<IWordCounter, WordCounter>();
+      services.AddLogContextProivder(Configuration);
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -20,11 +20,13 @@ namespace GeneralOperationsAPI.Controllers
     private static readonly HttpClient _client = new HttpClient(); // how do I make this once per application?
     private readonly IWordCounter _wordCounter;
     private readonly ILogger<WebsiteController> _logger;
+    private readonly ILogContext _logContext;
 
-    public WebsiteController(IWordCounter wordCounter, ILogger<WebsiteController> logger)
+    public WebsiteController(IWordCounter wordCounter, ILogger<WebsiteController> logger, ILogContext logContext)
     {
       _wordCounter = wordCounter;
       _logger = logger;
+      _logContext = logContext;
     }
 
     /// <summary>
@@ -92,9 +94,8 @@ namespace GeneralOperationsAPI.Controllers
 
       LogContext.Context.AddLog(LogLevel.Information, $"Processing Complete -about to return ok response", 0);
 
-      var logs = LogContext.Context.GetLogs(LogLevel.Error);
+      var logs = LogContext.Context.GetLogs(LogLevel.Warning);
       WriteLogs(logs);
-      //LogContext.Context.WriteToFile($@"C:\MyLogs\GeneralOperationsAPI_V1-{DateTime.Now.ToString("yyy-MM-dd")}.log");
       
 
       return Ok(jsonResult);
