@@ -32,7 +32,7 @@ namespace LoggingProblem
       taskList.Add(Task.Run(() => _mathOperations.Factorial(6)));
       taskList.Add(Task.Run(() => _mathOperations.Factorial(7)));
       taskList.Add(Task.Run(() => _mathOperations.Factorial(8)));
-      taskList.Add(Task.Run(() => _mathOperations.Factorial(9)));
+      taskList.Add(Task.Run(() => _mathOperations.Factorial(10)));
 
        await Task.WhenAll(taskList);
       _logger.Log(LogLevel.Information, "Found All Factorial Results");

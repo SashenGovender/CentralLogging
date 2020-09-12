@@ -18,14 +18,18 @@ namespace LoggingProblem
 
     public async Task <double> Factorial(int number)
     {
-      _logger.LogInformation($"ThreadId: {Thread.CurrentThread.ManagedThreadId} - Calculate factorial of {number}");
+      _logger.LogInformation($"ThreadId: {Thread.CurrentThread.ManagedThreadId} - Number {number} - before calculation");
       double result = 1;
       await Task.Delay(1000);
       for( int num=2;num<=number; num++)
       {
         result = result * num;
+        if(num %2 ==0)
+        {
+          _logger.LogInformation($"ThreadId: {Thread.CurrentThread.ManagedThreadId} - Number {number} - during calculation ");
+        }
       }
-      _logger.LogInformation($"ThreadId: {Thread.CurrentThread.ManagedThreadId} - Found Factorial Result of {number} - {result}");
+      _logger.LogInformation($"ThreadId: {Thread.CurrentThread.ManagedThreadId} - Number {number} - after calculation - {result} ");
       return result;
     }
   }
