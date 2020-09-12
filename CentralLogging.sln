@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CentralLog", "CentralLog\Ce
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggingProblem", "LoggingProblem\LoggingProblem.csproj", "{4698B0F9-6576-44F2-90E2-F6336992F3AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneralOperationsAPI.Tests", "GeneralOperationsAPI.Tests\GeneralOperationsAPI.Tests.csproj", "{5C2B4BD5-FFAE-48EE-B04B-797CF1418AA2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeneralOperationsAPI.Tests", "GeneralOperationsAPI.Tests\GeneralOperationsAPI.Tests.csproj", "{5C2B4BD5-FFAE-48EE-B04B-797CF1418AA2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,7 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using CentralLog;
+using LoggingProblem.CalculationILogger;
+using LoggingProblem.CalculationLogContext;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using NLog.Extensions.Logging;
 using NLog.Web;
 using System;
 using System.Threading.Tasks;
@@ -46,8 +48,15 @@ namespace LoggingProblem
 
     private static void ConfigureServices(HostBuilderContext builder, IServiceCollection serviceCollection)
     {
-      serviceCollection.AddHostedService<CalculationService>();
-      serviceCollection.AddTransient<IMathOperations, MathOperations>();
+      //Demonstrating the logging problem when running multiple threads (analogues to multiple requests)
+      serviceCollection.AddSingleton<IMathOperationsILogger, MathOperationsILogger>();
+      serviceCollection.AddHostedService<CalculationServiceILogger>();
+
+      // Use a logContext to prevent logs from getting mixed up
+      serviceCollection.AddSingleton<IMathOperationsLogContext, MathOperationsLogContext>();
+      serviceCollection.AddHostedService<CalculationServiceLogContext>();
+
+      serviceCollection.AddLogContextProivder(builder.Configuration);
     }
 
   }

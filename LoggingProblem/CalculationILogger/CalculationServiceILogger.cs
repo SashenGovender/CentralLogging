@@ -1,19 +1,17 @@
 ﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace LoggingProblem
+namespace LoggingProblem.CalculationILogger
 {
-  public class CalculationService : IHostedService
+  public class CalculationServiceILogger : IHostedService
   {
-    private readonly ILogger<CalculationService> _logger;
-    private readonly IMathOperations _mathOperations;
+    private readonly ILogger<CalculationServiceILogger> _logger;
+    private readonly IMathOperationsILogger _mathOperations;
 
-    public CalculationService(ILogger<CalculationService> logger, IMathOperations mathOperations)
+    public CalculationServiceILogger(ILogger<CalculationServiceILogger> logger, IMathOperationsILogger mathOperations)
     {
       _logger = logger;
       _mathOperations = mathOperations;
@@ -21,7 +19,7 @@ namespace LoggingProblem
 
     public async Task StartAsync(CancellationToken cancellationToken)
     {
-      _logger.Log(LogLevel.Information, "CalculationService StartAsync");
+      _logger.Log(LogLevel.Information, "CalculationILoggerService StartAsync");
 
       var taskList = new List<Task>();
       taskList.Add(Task.Run(() => _mathOperations.Factorial(1)));
@@ -34,9 +32,11 @@ namespace LoggingProblem
       taskList.Add(Task.Run(() => _mathOperations.Factorial(8)));
       taskList.Add(Task.Run(() => _mathOperations.Factorial(10)));
 
-       await Task.WhenAll(taskList);
+      await Task.WhenAll(taskList);
+
       _logger.Log(LogLevel.Information, "Found All Factorial Results");
-     // return Task.CompletedTask;
+
+      // return Task.CompletedTask;
     }
 
     public Task StopAsync(CancellationToken cancellationToken)

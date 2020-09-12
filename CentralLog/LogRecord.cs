@@ -12,7 +12,6 @@ namespace CentralLog
     public int? EventId { get; set; }
     public string Message { get; set; }
 
-    [JsonConverter(typeof(JsonStringEnumConverter))]
     public LogLevel LogLevel { get; set; }
     public DateTime LogTime { get; set; }
     public Exception Exception { get; set; }
