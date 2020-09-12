@@ -1,25 +1,31 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using CentralLog;
+using LoggingDemo.CalculationILogger;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace LoggingProblem.CalculationILogger
+namespace LoggingDemo.CalculationLogContext
 {
-  public class CalculationServiceILogger : IHostedService
+  public class CalculationServiceLogContext : IHostedService
   {
-    private readonly ILogger<CalculationServiceILogger> _logger;
-    private readonly IMathOperationsILogger _mathOperations;
+    private readonly ILogger<CalculationServiceLogContext> _logger;
+    private readonly IMathOperationsLogContext _mathOperations;
+    private readonly ILogContext _logContext;
 
-    public CalculationServiceILogger(ILogger<CalculationServiceILogger> logger, IMathOperationsILogger mathOperations)
+    public CalculationServiceLogContext(ILogger<CalculationServiceLogContext> logger, IMathOperationsLogContext mathOperations, ILogContext logContext)
     {
       _logger = logger;
       _mathOperations = mathOperations;
+       _logContext = logContext;
     }
 
     public async Task StartAsync(CancellationToken cancellationToken)
     {
-      _logger.Log(LogLevel.Information, "CalculationILoggerService StartAsync");
+      _logger.Log(LogLevel.Information, "CalculationServiceLogContext StartAsync");
 
       var taskList = new List<Task>();
       taskList.Add(Task.Run(() => _mathOperations.Factorial(1)));

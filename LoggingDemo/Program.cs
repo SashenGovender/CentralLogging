@@ -1,6 +1,6 @@
 ﻿using CentralLog;
-using LoggingProblem.CalculationILogger;
-using LoggingProblem.CalculationLogContext;
+using LoggingDemo.CalculationILogger;
+using LoggingDemo.CalculationLogContext;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -8,7 +8,7 @@ using NLog.Web;
 using System;
 using System.Threading.Tasks;
 
-namespace LoggingProblem
+namespace LoggingDemo
 {
   public class Program
   {
@@ -56,6 +56,7 @@ namespace LoggingProblem
       serviceCollection.AddSingleton<IMathOperationsLogContext, MathOperationsLogContext>();
       serviceCollection.AddHostedService<CalculationServiceLogContext>();
 
+      //Do I need this?
       serviceCollection.AddLogContextProivder(builder.Configuration);
     }
 

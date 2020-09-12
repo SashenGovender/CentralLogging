@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace LoggingProblem.CalculationLogContext
+namespace LoggingDemo.CalculationLogContext
 {
   public interface IMathOperationsLogContext
   {

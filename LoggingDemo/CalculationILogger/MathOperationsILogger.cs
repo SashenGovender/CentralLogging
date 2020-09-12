@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace LoggingProblem.CalculationILogger
+namespace LoggingDemo.CalculationILogger
 {
   public class MathOperationsILogger : IMathOperationsILogger
   {

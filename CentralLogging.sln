@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeneralOperationsAPI", "Gen
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CentralLog", "CentralLog\CentralLog.csproj", "{B7DAE399-5808-496C-A4B0-03476E64E285}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggingProblem", "LoggingProblem\LoggingProblem.csproj", "{4698B0F9-6576-44F2-90E2-F6336992F3AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggingDemo", "LoggingDemo\LoggingDemo.csproj", "{4698B0F9-6576-44F2-90E2-F6336992F3AF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeneralOperationsAPI.Tests", "GeneralOperationsAPI.Tests\GeneralOperationsAPI.Tests.csproj", "{5C2B4BD5-FFAE-48EE-B04B-797CF1418AA2}"
 EndProject

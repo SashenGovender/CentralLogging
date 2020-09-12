@@ -1,10 +1,10 @@
 ﻿using CentralLog;
-using LoggingProblem.CalculationLogContext;
+using LoggingDemo.CalculationLogContext;
 using Microsoft.Extensions.Logging;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace LoggingProblem
+namespace LoggingDemo
 {
   public class MathOperationsLogContext : IMathOperationsLogContext
   {
