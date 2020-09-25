@@ -26,6 +26,8 @@ namespace LoggingDemo.CalculationLogContext
     public async Task StartAsync(CancellationToken cancellationToken)
     {
       _logger.Log(LogLevel.Information, "CalculationServiceLogContext StartAsync");
+      //why does this not work?
+     // LogContext.Context.AddLog(LogLevel.Information, "CalculationServiceLogContext StartAsync");
 
       var taskList = new List<Task>();
       taskList.Add(Task.Run(() => _mathOperations.Factorial(1)));
@@ -39,6 +41,10 @@ namespace LoggingDemo.CalculationLogContext
       taskList.Add(Task.Run(() => _mathOperations.Factorial(10)));
 
       await Task.WhenAll(taskList);
+
+      //var logs = LogContext.Context.GetLogs(LogLevel.Information);
+      //var jsonResult = Newtonsoft.Json.JsonConvert.SerializeObject(logs);
+      //_logger.Log(LogLevel.Information, jsonResult);
 
       _logger.Log(LogLevel.Information, "Found All Factorial Results");
 
